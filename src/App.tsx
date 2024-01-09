@@ -1,8 +1,7 @@
-import React from 'react';
-import './App.css'
-import { RecoilRoot } from 'recoil';
-import { ModalProvider } from '@/hooks/useModal';
-import { Booking } from '@/features/Booking';
+import { Booking } from "@/features/Booking";
+import { ModalProvider } from "@/hooks/useModal";
+import { RecoilRoot } from "recoil";
+import "./App.css";
 
 function App() {
   return (
@@ -10,8 +9,8 @@ function App() {
       <ModalProvider>
         <Booking />
       </ModalProvider>
-    </RecoilRoot> 
-  )
+    </RecoilRoot>
+  );
 }
 
-export default App
+export default App;
