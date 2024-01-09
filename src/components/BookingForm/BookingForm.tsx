@@ -1,4 +1,3 @@
-import React from 'react';
 import { useBookingForm } from "@/hooks/useBookingForm";
 import { IBooking } from "@/interfaces/booking";
 import { Button, Typography } from "@mui/material";

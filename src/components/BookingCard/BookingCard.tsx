@@ -27,11 +27,11 @@ interface CheckinCheckoutLabelProps {
 }
 
 function CheckinLabel({ date }: CheckinCheckoutLabelProps) {
-  return <Typography>Check-in: {date?.format("DD/MM/YYYY")}</Typography>;
+  return <Typography>Check-in: {date?.format?.("DD/MM/YYYY")}</Typography>;
 }
 
 function CheckoutLabel({ date }: CheckinCheckoutLabelProps) {
-  return <Typography>Check-out: {date?.format("DD/MM/YYYY")}</Typography>;
+  return <Typography>Check-out: {date?.format?.("DD/MM/YYYY")}</Typography>;
 }
 
 interface EditProps {
