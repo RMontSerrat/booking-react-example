@@ -4,7 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
-import { useBookingForm } from '@/hooks/useBookingForm';
+import { useBookingForm } from '@/hooks/useBookingForm/useBookingForm';
 
 export function BookingForm({ defaultValues = {} }) {
   const { control, handleSubmit, errors, watch, onSubmit } = useBookingForm(defaultValues);
