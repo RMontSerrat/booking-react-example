@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css'
 import { RecoilRoot } from 'recoil';
-import { ModalProvider } from '@/hooks/useModal/useModal';
+import { ModalProvider } from '@/hooks/useModal';
 import { Booking } from '@/features/Booking';
 
 function App() {
