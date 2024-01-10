@@ -1,7 +1,7 @@
+import { ModalProvider } from "@/providers/ModalProvider";
+import { ToastProvider } from "@/providers/ToastProvider";
 import { render } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
-import { ToastProvider } from '@/hooks/useToast';
-import { ModalProvider } from '@/hooks/useModal';
 import { Booking } from "./Booking";
 
 jest.mock("@/hooks/useBooking", () => ({
@@ -34,12 +34,15 @@ jest.mock("@/hooks/useToast", () => ({
   }),
 }));
 
-
 describe("<Booking />", () => {
   it("should match snapshot", () => {
     const { asFragment } = render(
       <RecoilRoot>
-        <Booking />
+        <ToastProvider>
+          <ModalProvider>
+            <Booking />
+          </ModalProvider>
+        </ToastProvider>
       </RecoilRoot>,
     );
     expect(asFragment()).toMatchSnapshot();

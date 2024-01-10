@@ -1,6 +1,13 @@
-import React from "react";
 import { Typography } from "@mui/material";
+import React from "react";
+import { Container } from "./Header.styles";
 
 export function Header({ children }: { children: React.ReactNode }) {
-  return <Typography variant="h4">{children}</Typography>;
+  return (
+    <Container>
+      <Typography color="black" variant="h3">
+        {children}
+      </Typography>
+    </Container>
+  );
 }

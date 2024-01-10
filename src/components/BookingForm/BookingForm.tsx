@@ -1,35 +1,39 @@
+import { DatePicker } from "@/components/DatePicker";
 import { useBookingForm } from "@/hooks/useBookingForm";
 import { IBooking } from "@/interfaces/booking";
-import { Button, Typography } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { Controller } from "react-hook-form";
+import { Button, Form } from "./BookingForm.styles";
 
 interface BookingFormProps {
   defaultValues?: IBooking;
-  onSuccess?: () => void,
+  onSuccess?: () => void;
 }
 
 export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
-  const { control, handleSubmit, errors, watch, onSubmit } =
-    useBookingForm(defaultValues, { onSuccess });
+  const { control, handleSubmit, errors, watch, onSubmit } = useBookingForm(
+    defaultValues,
+    { onSuccess },
+  );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Controller
           name="checkIn"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <DatePicker minDate={dayjs()} label="Check-in" {...field} />
+            <DatePicker
+              error={errors.checkIn?.message}
+              minDate={dayjs()}
+              label="Check-in"
+              {...field}
+            />
           )}
         />
-        {errors.checkIn && (
-          <Typography color="red">{errors.checkIn.message}</Typography>
-        )}
-
         <Controller
           name="checkOut"
           control={control}
@@ -37,18 +41,16 @@ export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
           render={({ field }) => (
             <DatePicker
               label="Check-out"
-              minDate={watch("checkIn")}
+              error={errors.checkOut?.message}
+              minDate={watch("checkIn") || undefined}
               {...field}
             />
           )}
         />
-        {errors.checkOut && (
-          <Typography color="red">{errors.checkOut.message}</Typography>
-        )}
-        <Button variant="contained" color="primary" type="submit">
+        <Button variant="contained" color="primary" type="submit" size="large">
           Submit
         </Button>
       </LocalizationProvider>
-    </form>
+    </Form>
   );
 }

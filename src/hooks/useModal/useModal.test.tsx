@@ -1,6 +1,7 @@
+import { ModalProvider } from "@/providers/ModalProvider";
 import { act, render, screen } from "@testing-library/react";
-import { ModalProvider, useModal } from "./useModal";
 import { RecoilRoot } from "recoil";
+import { useModal } from "./useModal";
 
 describe("ModalProvider", () => {
   test("should render children and provide modal context", () => {

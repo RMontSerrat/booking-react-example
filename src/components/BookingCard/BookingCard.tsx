@@ -1,25 +1,16 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  IconButton,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { CardActions, IconButton, Typography } from "@mui/material";
 import { Dayjs } from "dayjs";
+import React from "react";
+import { Card, CardContent } from "./BookingCard.styles";
 
 interface BookingCardProps {
   children: React.ReactNode;
 }
 
 export function BookingCard({ children }: BookingCardProps) {
-  return (
-    <Card variant="outlined">
-      <CardContent>{children}</CardContent>
-    </Card>
-  );
+  return <Card variant="outlined">{children}</Card>;
 }
 
 interface CheckinCheckoutLabelProps {
@@ -27,11 +18,19 @@ interface CheckinCheckoutLabelProps {
 }
 
 function CheckinLabel({ date }: CheckinCheckoutLabelProps) {
-  return <Typography>Check-in: {date?.format?.("DD/MM/YYYY")}</Typography>;
+  return (
+    <Typography>
+      <strong>Check-in:</strong> {date?.format?.("DD/MM/YYYY")}
+    </Typography>
+  );
 }
 
 function CheckoutLabel({ date }: CheckinCheckoutLabelProps) {
-  return <Typography>Check-out: {date?.format?.("DD/MM/YYYY")}</Typography>;
+  return (
+    <Typography>
+      <strong>Check-out:</strong> {date?.format?.("DD/MM/YYYY")}
+    </Typography>
+  );
 }
 
 interface EditProps {
@@ -59,6 +58,7 @@ function Delete({ onDelete }: DeleteProps) {
 }
 
 BookingCard.Actions = CardActions;
+BookingCard.Content = CardContent;
 BookingCard.CheckinLabel = CheckinLabel;
 BookingCard.CheckoutLabel = CheckoutLabel;
 BookingCard.Delete = Delete;

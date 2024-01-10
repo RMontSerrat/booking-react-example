@@ -1,8 +1,12 @@
 import { Booking } from "@/features/Booking";
-import { ModalProvider } from "@/hooks/useModal";
-import { ToastProvider } from "@/hooks/useToast";
+import { ModalProvider } from "@/providers/ModalProvider";
+import { ToastProvider } from "@/providers/ToastProvider";
+
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 import { RecoilRoot } from "recoil";
-import "./App.css";
 
 function App() {
   return (
@@ -11,7 +15,7 @@ function App() {
         <ModalProvider>
           <Booking />
         </ModalProvider>
-        </ToastProvider>
+      </ToastProvider>
     </RecoilRoot>
   );
 }

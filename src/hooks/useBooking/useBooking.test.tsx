@@ -63,7 +63,7 @@ describe("useBooking", () => {
         checkOut: dayjs("2022-01-03"),
       });
     });
-    expect(result.current.bookings[0].checkIn.date()).toEqual(2);
+    expect(result.current.bookings[0].checkIn?.date()).toEqual(2);
   });
 
   test("should handle checkExistingBooking correctly", () => {
