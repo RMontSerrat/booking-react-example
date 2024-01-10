@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useBooking } from "@/hooks/useBooking";
 import { IBooking } from "@/interfaces/booking";
+import { useToast } from "../useToast/useToast";
 
 export const bookingSchema = z.object({
   id: z.string().optional(),
@@ -21,36 +22,36 @@ export const bookingSchema = z.object({
 
 export type BookingFormInput = z.infer<typeof bookingSchema>;
 
-export const useBookingForm = (defaultValues = {}) => {
+interface UseBookingFormOptions {
+  onSuccess?: () => void,
+}
+
+export const useBookingForm = (defaultValues?: IBooking, options?: UseBookingFormOptions) => {
+  const { addToast } = useToast();
   const {
     control,
     handleSubmit,
     formState: { errors },
     watch,
-    setError,
   } = useForm<IBooking>({
     resolver: zodResolver(bookingSchema),
     defaultValues,
   });
+
   const { addBooking, editBooking, checkExistingBooking } = useBooking();
 
   const onSubmit = (data: BookingFormInput) => {
     const bookingExists = checkExistingBooking(data);
+    
     if (bookingExists) {
-      setError("checkIn", {
-        type: "manual",
-        message: "Booking with these dates already exists!",
-      });
-      setError("checkOut", {
-        type: "manual",
-        message: "Booking with these dates already exists!",
-      });
+      addToast("Booking with these dates already exists!", { type: 'error'});
     } else {
       if (data.id) {
         editBooking(data);
       } else {
         addBooking(data);
       }
+      options?.onSuccess?.();
     }
   };
 

@@ -8,11 +8,12 @@ import { Controller } from "react-hook-form";
 
 interface BookingFormProps {
   defaultValues?: IBooking;
+  onSuccess?: () => void,
 }
 
-export function BookingForm({ defaultValues }: BookingFormProps) {
+export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
   const { control, handleSubmit, errors, watch, onSubmit } =
-    useBookingForm(defaultValues);
+    useBookingForm(defaultValues, { onSuccess });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

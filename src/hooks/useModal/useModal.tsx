@@ -1,60 +1,62 @@
-import React, { useState, useContext, createContext, useCallback } from "react";
-import { Modal as MuiModal } from "@mui/material";
+import React, { useCallback, useContext, createContext } from 'react';
+import { Modal as MuiModal } from '@mui/material';
+import { atom, useRecoilState } from 'recoil';
 
-type OpenModalOption = {
+interface ModalOptions {
   body: React.ReactNode;
   onClose?: () => void;
-};
+}
 
-const ModalContext = createContext<
-  | {
-      openModal: (option: OpenModalOption) => void;
-      closeModal: () => void;
-    }
-  | undefined
->(undefined);
+interface ModalState {
+  body: React.ReactNode | null;
+  open: boolean;
+  onClose: (() => void) | undefined;
+}
+
+const modalState = atom<ModalState>({
+  key: 'modalState',
+  default: {
+    body: null,
+    open: false,
+    onClose: undefined,
+  },
+});
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [modalContent, setModalContent] = useState<React.ReactNode | null>(
-    null,
-  );
-  const [open, setOpen] = useState(false);
-  const [onClose, setOnClose] = useState<(() => void) | undefined>(undefined);
+  const [modalInfo, setModalInfo] = useRecoilState(modalState);
 
-  const openModal = useCallback(
-    ({ body, onClose: customOnClose }: OpenModalOption) => {
-      setModalContent(body);
-      setOpen(true);
-      if (customOnClose) {
-        setOnClose(() => customOnClose);
-      }
-    },
-    [],
-  );
+  const openModal = useCallback(({ body, onClose }: ModalOptions) => {
+    setModalInfo({ body, open: true, onClose });
+  }, [setModalInfo]);
 
   const closeModal = useCallback(() => {
-    if (onClose) {
-      onClose();
+    if (modalInfo.onClose) {
+      modalInfo.onClose();
     }
-    setOpen(false);
-    setModalContent(null);
-    setOnClose(undefined);
-  }, [onClose]);
+    setModalInfo({ body: null, open: false, onClose: undefined });
+  }, [modalInfo, setModalInfo]);
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
-      <MuiModal open={open} onClose={closeModal}>
-        <div>{modalContent}</div>
+      <MuiModal open={modalInfo.open} onClose={closeModal}>
+        <div>{modalInfo.body}</div>
       </MuiModal>
     </ModalContext.Provider>
   );
 }
 
-export const useModal = () => {
+interface ModalContextType {
+  openModal: (options: ModalOptions) => void;
+  closeModal: () => void;
+}
+
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
+
+export const useModal = (): ModalContextType => {
   const context = useContext(ModalContext);
   if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
+    throw new Error('useModal must be used within a ModalProvider');
   }
   return context;
 };
