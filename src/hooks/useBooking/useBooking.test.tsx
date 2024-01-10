@@ -1,9 +1,8 @@
 import React from "react";
-import { bookingsState } from "@/states/booking";
 import { renderHook } from "@testing-library/react";
 import { act } from "@testing-library/react-hooks";
 import { RecoilRoot } from "recoil";
-import { useBooking } from "./useBooking";
+import { bookingsState, useBooking } from "./useBooking";
 
 import dayjs from "dayjs";
 

@@ -1,9 +1,13 @@
 import { BookingFormInput } from "@/hooks/useBookingForm";
 import { IBooking } from "@/interfaces/booking";
-import { bookingsState } from "@/states/booking";
 import { generateUniqueId } from "@/utils";
 import dayjs, { Dayjs } from "dayjs";
-import { useRecoilState } from "recoil";
+import { atom, useRecoilState } from "recoil";
+
+export const bookingsState = atom<IBooking[]>({
+  key: "bookingsState",
+  default: [],
+});
 
 export const useBooking = () => {
   const [bookings, setBookings] = useRecoilState<IBooking[]>(bookingsState);

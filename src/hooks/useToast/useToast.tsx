@@ -40,7 +40,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const addToast = (message: string, options?: SnackbarMessage['options']) => {
     setSnackbars(prev => [
       ...prev,
-      { id: new Date().getTime(), message, options },
+      { id: String(new Date().getTime()), message, options },
     ]);
   };
 
