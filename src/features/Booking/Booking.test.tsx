@@ -1,5 +1,7 @@
 import { render } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
+import { ToastProvider } from '@/hooks/useToast';
+import { ModalProvider } from '@/hooks/useModal';
 import { Booking } from "./Booking";
 
 jest.mock("@/hooks/useBooking", () => ({
@@ -20,11 +22,18 @@ jest.mock("@/hooks/useBooking", () => ({
   }),
 }));
 
-jest.mock("@/hooks/useModal/useModal", () => ({
+jest.mock("@/hooks/useModal", () => ({
   useModal: () => ({
     openModal: jest.fn(),
   }),
 }));
+
+jest.mock("@/hooks/useToast", () => ({
+  useToast: () => ({
+    addToast: jest.fn(),
+  }),
+}));
+
 
 describe("<Booking />", () => {
   it("should match snapshot", () => {

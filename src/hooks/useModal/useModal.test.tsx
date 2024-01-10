@@ -1,5 +1,6 @@
 import { act, render, screen } from "@testing-library/react";
 import { ModalProvider, useModal } from "./useModal";
+import { RecoilRoot } from "recoil";
 
 describe("ModalProvider", () => {
   test("should render children and provide modal context", () => {
@@ -17,9 +18,11 @@ describe("ModalProvider", () => {
     };
 
     render(
-      <ModalProvider>
-        <ChildComponent />
-      </ModalProvider>,
+      <RecoilRoot>
+        <ModalProvider>
+          <ChildComponent />
+        </ModalProvider>
+      </RecoilRoot>,
     );
 
     act(() => {
@@ -56,9 +59,11 @@ describe("ModalProvider", () => {
     };
 
     render(
-      <ModalProvider>
-        <ChildComponent />
-      </ModalProvider>,
+      <RecoilRoot>
+        <ModalProvider>
+          <ChildComponent />
+        </ModalProvider>
+      </RecoilRoot>,
     );
 
     act(() => {

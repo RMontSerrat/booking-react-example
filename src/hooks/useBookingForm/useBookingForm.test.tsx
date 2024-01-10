@@ -18,8 +18,13 @@ jest.mock("@/hooks/useBooking", () => ({
 
 jest.mock("react-hook-form", () => ({
   useForm: () => ({
-    setError: mockedSetError,
     formState: {},
+  }),
+}));
+
+jest.mock("@/hooks/useToast", () => ({
+  useToast: () => ({
+    addToast: mockedSetError,
   }),
 }));
 

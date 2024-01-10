@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { useBooking } from "@/hooks/useBooking";
 import { IBooking } from "@/interfaces/booking";
-import { useToast } from "../useToast/useToast";
+import { useToast } from "@/hooks/useToast";
 
 export const bookingSchema = z.object({
   id: z.string().optional(),
