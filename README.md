@@ -61,6 +61,7 @@ To run tests, execute `npm test` or `yarn test`. This will run Jest tests in wat
 
 ## Demo
 Check out the live demo here: [Booking React Example Demo](https://rmontserrat.github.io/booking-react-example/).
+
 This demo provides a hands-on opportunity to explore the functionality and user interface of the booking management system. Feel free to interact with the features to see how the
 
 
