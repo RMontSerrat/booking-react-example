@@ -20,7 +20,7 @@ interface CheckinCheckoutLabelProps {
 function CheckinLabel({ date }: CheckinCheckoutLabelProps) {
   return (
     <Typography>
-      <strong>Check-in:</strong> {date?.format?.("DD/MM/YYYY")}
+      <strong>Check-in:</strong> {date?.format?.("MM/DD/YYYY")}
     </Typography>
   );
 }
@@ -28,7 +28,7 @@ function CheckinLabel({ date }: CheckinCheckoutLabelProps) {
 function CheckoutLabel({ date }: CheckinCheckoutLabelProps) {
   return (
     <Typography>
-      <strong>Check-out:</strong> {date?.format?.("DD/MM/YYYY")}
+      <strong>Check-out:</strong> {date?.format?.("MM/DD/YYYY")}
     </Typography>
   );
 }
