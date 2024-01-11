@@ -46,20 +46,22 @@ export function Booking() {
     <div>
       <Header>Booking List</Header>
       <BookingForm onSuccess={handleSuccessCreate} />
-      <BookingList>
-        {bookings.map((booking: IBooking) => (
-          <BookingCard key={booking.id}>
-            <BookingCard.Content>
-              <BookingCard.CheckinLabel date={booking.checkIn} />
-              <BookingCard.CheckoutLabel date={booking.checkOut} />
-            </BookingCard.Content>
-            <BookingCard.Actions>
-              <BookingCard.Edit onEdit={() => handleEdit(booking)} />
-              <BookingCard.Delete onDelete={() => handleDelete(booking)} />
-            </BookingCard.Actions>
-          </BookingCard>
-        ))}
-      </BookingList>
+      {!!bookings.length && (
+        <BookingList>
+          {bookings.map((booking: IBooking) => (
+            <BookingCard key={booking.id}>
+              <BookingCard.Content>
+                <BookingCard.CheckinLabel date={booking.checkIn} />
+                <BookingCard.CheckoutLabel date={booking.checkOut} />
+              </BookingCard.Content>
+              <BookingCard.Actions>
+                <BookingCard.Edit onEdit={() => handleEdit(booking)} />
+                <BookingCard.Delete onDelete={() => handleDelete(booking)} />
+              </BookingCard.Actions>
+            </BookingCard>
+          ))}
+        </BookingList>
+      )}
     </div>
   );
 }
