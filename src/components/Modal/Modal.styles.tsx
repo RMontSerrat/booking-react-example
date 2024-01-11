@@ -10,4 +10,8 @@ export const Container = styled.div`
   border-radius: 5px;
   box-shadow: 24px;
   padding: 40px;
+
+  @media (max-width: 600px) {
+    width: 70%;
+  }
 `;
