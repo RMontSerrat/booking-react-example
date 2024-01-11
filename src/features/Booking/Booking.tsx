@@ -39,8 +39,10 @@ export function Booking() {
   };
 
   const handleDelete = (booking: IBooking) => {
-    deleteBooking(booking);
-    addToast("Booking deleted successfully", { type: "success" });
+    if (booking.id) {
+      deleteBooking(booking.id);
+      addToast("Booking deleted successfully", { type: "success" });
+    }
   };
 
   return (

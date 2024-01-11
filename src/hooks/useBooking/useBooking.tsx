@@ -16,10 +16,8 @@ export const bookingsState = atom<IBooking[]>({
 export const useBooking = () => {
   const [bookings, setBookings] = useRecoilState<IBooking[]>(bookingsState);
 
-  const deleteBooking = (bookingToDelete: IBooking) => {
-    setBookings(
-      bookings.filter((booking) => booking.id !== bookingToDelete.id),
-    );
+  const deleteBooking = (bookingId: string) => {
+    setBookings(bookings.filter((booking) => booking.id !== bookingId));
   };
 
   const checkExistingBooking = (data: BookingFormInput) => {
@@ -33,8 +31,8 @@ export const useBooking = () => {
     return bookings.some(
       (booking) =>
         booking.id !== data.id &&
-        booking.checkIn?.isSame(checkInDate, "day") &&
-        booking.checkOut?.isSame(checkOutDate, "day"),
+        dayjs(booking.checkIn)?.isSame(checkInDate, "day") &&
+        dayjs(booking.checkOut)?.isSame(checkOutDate, "day"),
     );
   };
 
