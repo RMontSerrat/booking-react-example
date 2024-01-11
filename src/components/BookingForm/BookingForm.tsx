@@ -13,10 +13,10 @@ interface BookingFormProps {
 }
 
 export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
-  const { control, handleSubmit, errors, watch, onSubmit } = useBookingForm(
+  const { control, handleSubmit, errors, watch, onSubmit } = useBookingForm({
     defaultValues,
-    { onSuccess },
-  );
+    onSuccess,
+  });
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

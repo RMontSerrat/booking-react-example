@@ -1,32 +1,52 @@
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { useBooking } from "@/hooks/useBooking";
+import { useToast } from "@/hooks/useToast";
+import { IBooking } from "@/interfaces/booking";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
-import { useBooking } from "@/hooks/useBooking";
-import { IBooking } from "@/interfaces/booking";
-import { useToast } from "@/hooks/useToast";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-export const bookingSchema = z.object({
-  id: z.string().optional(),
-  checkIn: z
-    .custom((val) => dayjs.isDayjs(val), {
-      message: "Check-in must be a valid date.",
-    })
-    .nullable(),
-  checkOut: z
-    .custom((val) => dayjs.isDayjs(val), {
-      message: "Check-out must be a valid date.",
-    })
-    .nullable(),
-});
+export const bookingSchema = z
+  .object({
+    id: z.string().optional(),
+    checkIn: z
+      .custom((val) => dayjs.isDayjs(val), {
+        message: "Check-in must be a valid date.",
+      })
+      .nullable(),
+    checkOut: z
+      .custom((val) => dayjs.isDayjs(val), {
+        message: "Check-out must be a valid date.",
+      })
+      .nullable(),
+  })
+  .refine(
+    (data) => {
+      const { checkIn, checkOut } = data;
+      if (checkIn && checkOut) {
+        return (
+          dayjs.isDayjs(checkIn) &&
+          dayjs.isDayjs(checkOut) &&
+          dayjs(checkOut).isAfter(dayjs(checkIn))
+        );
+      }
+      return true;
+    },
+    {
+      message: "Check-out date must be after check-in.",
+      path: ["checkOut"],
+    },
+  );
 
 export type BookingFormInput = z.infer<typeof bookingSchema>;
 
-interface UseBookingFormOptions {
-  onSuccess?: () => void,
+interface UseBookingFormProps {
+  defaultValues?: IBooking;
+  onSuccess?: () => void;
 }
 
-export const useBookingForm = (defaultValues?: IBooking, options?: UseBookingFormOptions) => {
+export const useBookingForm = (options?: UseBookingFormProps) => {
+  const { defaultValues, onSuccess } = options ?? {};
   const { addToast } = useToast();
   const {
     control,
@@ -42,16 +62,16 @@ export const useBookingForm = (defaultValues?: IBooking, options?: UseBookingFor
 
   const onSubmit = (data: BookingFormInput) => {
     const bookingExists = checkExistingBooking(data);
-    
+
     if (bookingExists) {
-      addToast("Booking with these dates already exists!", { type: 'error'});
+      addToast("Booking with these dates already exists!", { type: "error" });
     } else {
       if (data.id) {
         editBooking(data);
       } else {
         addBooking(data);
       }
-      options?.onSuccess?.();
+      onSuccess?.();
     }
   };
 
