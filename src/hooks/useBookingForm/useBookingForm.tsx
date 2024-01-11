@@ -10,14 +10,24 @@ export const bookingSchema = z
   .object({
     id: z.string().optional(),
     checkIn: z
-      .custom((val) => dayjs.isDayjs(val), {
-        message: "Check-in must be a valid date.",
-      })
+      .custom(
+        (val) =>
+          dayjs.isDayjs(val) &&
+          (dayjs(val).isAfter(dayjs()) || dayjs(val).isSame(dayjs()), "day"),
+        {
+          message: "Check-in must be a valid date and today or later.",
+        },
+      )
       .nullable(),
     checkOut: z
-      .custom((val) => dayjs.isDayjs(val), {
-        message: "Check-out must be a valid date.",
-      })
+      .custom(
+        (val) =>
+          dayjs.isDayjs(val) &&
+          (dayjs(val).isAfter(dayjs()) || dayjs(val).isSame(dayjs()), "day"),
+        {
+          message: "Check-out must be a valid date and today or later.",
+        },
+      )
       .nullable(),
   })
   .refine(
