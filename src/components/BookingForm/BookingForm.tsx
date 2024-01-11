@@ -13,7 +13,7 @@ interface BookingFormProps {
 }
 
 export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
-  const { control, handleSubmit, errors, watch, onSubmit } = useBookingForm({
+  const { control, handleSubmit, watch, onSubmit } = useBookingForm({
     defaultValues,
     onSuccess,
   });
@@ -25,9 +25,9 @@ export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
           name="checkIn"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <DatePicker
-              error={errors.checkIn?.message}
+              error={error?.message}
               minDate={dayjs()}
               label="Check-in"
               {...field}
@@ -38,10 +38,10 @@ export function BookingForm({ defaultValues, onSuccess }: BookingFormProps) {
           name="checkOut"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <DatePicker
               label="Check-out"
-              error={errors.checkOut?.message}
+              error={error?.message}
               minDate={watch("checkIn") || undefined}
               {...field}
             />

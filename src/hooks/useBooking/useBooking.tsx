@@ -3,10 +3,14 @@ import { IBooking } from "@/interfaces/booking";
 import { generateUniqueId } from "@/utils";
 import dayjs, { Dayjs } from "dayjs";
 import { atom, useRecoilState } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 export const bookingsState = atom<IBooking[]>({
   key: "bookingsState",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const useBooking = () => {

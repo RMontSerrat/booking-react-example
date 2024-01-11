@@ -58,12 +58,7 @@ interface UseBookingFormProps {
 export const useBookingForm = (options?: UseBookingFormProps) => {
   const { defaultValues, onSuccess } = options ?? {};
   const { addToast } = useToast();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<IBooking>({
+  const { control, handleSubmit, watch } = useForm<IBooking>({
     resolver: zodResolver(bookingSchema),
     defaultValues,
   });
@@ -85,5 +80,5 @@ export const useBookingForm = (options?: UseBookingFormProps) => {
     }
   };
 
-  return { onSubmit, control, handleSubmit, errors, watch };
+  return { onSubmit, control, handleSubmit, watch };
 };

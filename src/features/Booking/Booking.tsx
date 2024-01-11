@@ -6,6 +6,7 @@ import { useBooking } from "@/hooks/useBooking";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { IBooking } from "@/interfaces/booking";
+import dayjs from "dayjs";
 
 export function Booking() {
   const { addToast } = useToast();
@@ -27,8 +28,8 @@ export function Booking() {
       body: (
         <BookingForm
           defaultValues={{
-            checkIn: editingBooking?.checkIn,
-            checkOut: editingBooking?.checkOut,
+            checkIn: dayjs(editingBooking?.checkIn),
+            checkOut: dayjs(editingBooking?.checkOut),
             id: editingBooking?.id,
           }}
           onSuccess={handleSuccessEdit}
@@ -51,8 +52,8 @@ export function Booking() {
           {bookings.map((booking: IBooking) => (
             <BookingCard key={booking.id}>
               <BookingCard.Content>
-                <BookingCard.CheckinLabel date={booking.checkIn} />
-                <BookingCard.CheckoutLabel date={booking.checkOut} />
+                <BookingCard.CheckinLabel date={dayjs(booking.checkIn)} />
+                <BookingCard.CheckoutLabel date={dayjs(booking.checkOut)} />
               </BookingCard.Content>
               <BookingCard.Actions>
                 <BookingCard.Edit onEdit={() => handleEdit(booking)} />

@@ -1,5 +1,5 @@
 import { Modal } from "@/components/Modal";
-import React, { createContext, useCallback } from "react";
+import React, { createContext } from "react";
 import { atom, useRecoilState } from "recoil";
 
 interface ModalOptions {
@@ -25,19 +25,16 @@ const modalState = atom<ModalState>({
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [modalInfo, setModalInfo] = useRecoilState(modalState);
 
-  const openModal = useCallback(
-    ({ body, onClose }: ModalOptions) => {
-      setModalInfo({ body, open: true, onClose });
-    },
-    [setModalInfo],
-  );
+  const openModal = ({ body, onClose }: ModalOptions) => {
+    setModalInfo({ body, open: true, onClose });
+  };
 
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     if (modalInfo.onClose) {
       modalInfo.onClose();
     }
     setModalInfo({ body: null, open: false, onClose: undefined });
-  }, [modalInfo, setModalInfo]);
+  };
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
