@@ -2,10 +2,16 @@ import { BookingFormInput } from "@/hooks/useBookingForm";
 import { IBooking } from "@/interfaces/booking";
 import { generateUniqueId } from "@/utils";
 import dayjs, { Dayjs } from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { atom, useRecoilState } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
+dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 export const bookingsState = atom<IBooking[]>({
   key: "bookingsState",
@@ -32,23 +38,17 @@ export const useBooking = () => {
       existingCheckIn: Dayjs,
       existingCheckOut: Dayjs,
     ) => {
-      const startsDuringAnotherBooking =
-        checkInDate.isBefore(existingCheckOut, "day") &&
-        checkInDate.isAfter(existingCheckIn, "day");
+      const overlapsWithExisting =
+        (checkInDate.isSameOrAfter(existingCheckIn, "day") &&
+          checkInDate.isBefore(existingCheckOut, "day")) ||
+        (checkOutDate.isAfter(existingCheckIn, "day") &&
+          checkOutDate.isSameOrBefore(existingCheckOut, "day"));
 
-      const endsDuringAnotherBooking =
-        checkOutDate.isAfter(existingCheckIn, "day") &&
-        checkOutDate.isBefore(existingCheckOut, "day");
-
-      const envelopsAnotherBooking =
+      const envelopsExisting =
         checkInDate.isBefore(existingCheckIn, "day") &&
         checkOutDate.isAfter(existingCheckOut, "day");
 
-      return (
-        startsDuringAnotherBooking ||
-        endsDuringAnotherBooking ||
-        envelopsAnotherBooking
-      );
+      return overlapsWithExisting || envelopsExisting;
     };
 
     return bookings.some((booking) => {
