@@ -177,7 +177,7 @@ exports[`<Booking /> should match snapshot 1`] = `
             <strong>
               Check-in:
             </strong>
-             
+             12/31/2021
           </p>
           <p
             class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
@@ -185,7 +185,7 @@ exports[`<Booking /> should match snapshot 1`] = `
             <strong>
               Check-out:
             </strong>
-             
+             01/01/2022
           </p>
         </div>
         <div
@@ -245,7 +245,7 @@ exports[`<Booking /> should match snapshot 1`] = `
             <strong>
               Check-in:
             </strong>
-             
+             01/02/2022
           </p>
           <p
             class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
@@ -253,7 +253,7 @@ exports[`<Booking /> should match snapshot 1`] = `
             <strong>
               Check-out:
             </strong>
-             
+             01/03/2022
           </p>
         </div>
         <div

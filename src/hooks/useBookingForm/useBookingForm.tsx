@@ -63,13 +63,16 @@ export const useBookingForm = (options?: UseBookingFormProps) => {
     defaultValues,
   });
 
-  const { addBooking, editBooking, checkExistingBooking } = useBooking();
+  const { addBooking, editBooking, checkIsBookingOverlapping } = useBooking();
 
   const onSubmit = (data: BookingFormInput) => {
-    const bookingExists = checkExistingBooking(data);
+    const isBookingOverlapping = checkIsBookingOverlapping(data);
 
-    if (bookingExists) {
-      addToast("Booking with these dates already exists!", { type: "error" });
+    if (isBookingOverlapping) {
+      addToast(
+        "Unable to create booking: the selected dates overlap with an existing reservation.",
+        { type: "error" },
+      );
     } else {
       if (data.id) {
         editBooking(data);

@@ -1,18 +1,18 @@
-import { act } from "@testing-library/react-hooks";
-import { useBookingForm } from "./useBookingForm";
 import { renderHook } from "@testing-library/react";
+import { act } from "@testing-library/react-hooks";
 import dayjs from "dayjs";
+import { useBookingForm } from "./useBookingForm";
 
 const mockedSetError = jest.fn();
 const mockedAddBooking = jest.fn();
 const mockedEditBooking = jest.fn();
-let mockedCheckExistingBooking = jest.fn(() => false);
+let mockedcheckIsBookingOverlapping = jest.fn(() => false);
 
 jest.mock("@/hooks/useBooking", () => ({
   useBooking: () => ({
     addBooking: mockedAddBooking,
     editBooking: mockedEditBooking,
-    checkExistingBooking: mockedCheckExistingBooking,
+    checkIsBookingOverlapping: mockedcheckIsBookingOverlapping,
   }),
 }));
 
@@ -45,7 +45,7 @@ describe("useBookingForm", () => {
     });
 
     expect(mockedAddBooking).toHaveBeenCalledWith(newBookingData);
-    expect(mockedCheckExistingBooking).toHaveBeenCalled();
+    expect(mockedcheckIsBookingOverlapping).toHaveBeenCalled();
     expect(mockedEditBooking).not.toHaveBeenCalled();
   });
 
@@ -62,12 +62,14 @@ describe("useBookingForm", () => {
     });
 
     expect(mockedAddBooking).not.toHaveBeenCalled();
-    expect(mockedCheckExistingBooking).toHaveBeenCalledWith(newBookingData);
+    expect(mockedcheckIsBookingOverlapping).toHaveBeenCalledWith(
+      newBookingData,
+    );
     expect(mockedEditBooking).toHaveBeenCalledWith(newBookingData);
   });
 
   test("should handle adding a existing booking correctly", () => {
-    mockedCheckExistingBooking = jest.fn(() => true);
+    mockedcheckIsBookingOverlapping = jest.fn(() => true);
     const { result } = renderHook(() => useBookingForm());
     const newBookingData = {
       id: "1",
@@ -79,7 +81,9 @@ describe("useBookingForm", () => {
       result.current.onSubmit(newBookingData);
     });
 
-    expect(mockedCheckExistingBooking).toHaveBeenCalledWith(newBookingData);
+    expect(mockedcheckIsBookingOverlapping).toHaveBeenCalledWith(
+      newBookingData,
+    );
     expect(mockedAddBooking).not.toHaveBeenCalled();
     expect(mockedEditBooking).not.toHaveBeenCalled();
     expect(mockedSetError).toHaveBeenCalled();

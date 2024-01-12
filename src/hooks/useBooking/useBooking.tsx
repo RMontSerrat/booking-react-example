@@ -20,20 +20,46 @@ export const useBooking = () => {
     setBookings(bookings.filter((booking) => booking.id !== bookingId));
   };
 
-  const checkExistingBooking = (data: BookingFormInput) => {
-    const checkInDate = dayjs.isDayjs(data.checkIn)
-      ? (data.checkIn as Dayjs)
-      : null;
-    const checkOutDate = dayjs.isDayjs(data.checkOut)
-      ? (data.checkOut as Dayjs)
-      : null;
+  const checkIsBookingOverlapping = (data: BookingFormInput) => {
+    const checkInDate = dayjs.isDayjs(data.checkIn) ? data.checkIn : null;
+    const checkOutDate = dayjs.isDayjs(data.checkOut) ? data.checkOut : null;
 
-    return bookings.some(
-      (booking) =>
+    if (!checkInDate || !checkOutDate) {
+      return false;
+    }
+
+    const isDateOverlapping = (
+      existingCheckIn: Dayjs,
+      existingCheckOut: Dayjs,
+    ) => {
+      const startsDuringAnotherBooking =
+        checkInDate.isBefore(existingCheckOut, "day") &&
+        checkInDate.isAfter(existingCheckIn, "day");
+
+      const endsDuringAnotherBooking =
+        checkOutDate.isAfter(existingCheckIn, "day") &&
+        checkOutDate.isBefore(existingCheckOut, "day");
+
+      const envelopsAnotherBooking =
+        checkInDate.isBefore(existingCheckIn, "day") &&
+        checkOutDate.isAfter(existingCheckOut, "day");
+
+      return (
+        startsDuringAnotherBooking ||
+        endsDuringAnotherBooking ||
+        envelopsAnotherBooking
+      );
+    };
+
+    return bookings.some((booking) => {
+      const existingCheckIn = dayjs(booking.checkIn);
+      const existingCheckOut = dayjs(booking.checkOut);
+
+      return (
         booking.id !== data.id &&
-        dayjs(booking.checkIn)?.isSame(checkInDate, "day") &&
-        dayjs(booking.checkOut)?.isSame(checkOutDate, "day"),
-    );
+        isDateOverlapping(existingCheckIn, existingCheckOut)
+      );
+    });
   };
 
   const addBooking = (data: BookingFormInput) => {
@@ -74,6 +100,6 @@ export const useBooking = () => {
     deleteBooking,
     editBooking,
     addBooking,
-    checkExistingBooking,
+    checkIsBookingOverlapping,
   };
 };
