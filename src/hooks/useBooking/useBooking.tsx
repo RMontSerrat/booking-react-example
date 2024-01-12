@@ -8,10 +8,11 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { atom, useRecoilState } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
-const { persistAtom } = recoilPersist();
 dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
+
+const { persistAtom } = recoilPersist();
 
 export const bookingsState = atom<IBooking[]>({
   key: "bookingsState",

@@ -7,43 +7,50 @@ import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { IBooking } from "@/interfaces/booking";
 import dayjs from "dayjs";
+import { useCallback } from "react";
 
 export function Booking() {
   const { addToast } = useToast();
   const { deleteBooking, bookings } = useBooking();
   const { openModal, closeModal } = useModal();
 
-  const handleSuccessCreate = () => {
+  const handleSuccessCreate = useCallback(() => {
     addToast("Booking created successfully", { type: "success" });
     closeModal();
-  };
+  }, [addToast, closeModal]);
 
-  const handleSuccessEdit = () => {
+  const handleSuccessEdit = useCallback(() => {
     addToast("Booking edited successfully", { type: "success" });
     closeModal();
-  };
+  }, [addToast, closeModal]);
 
-  const handleEdit = (editingBooking: IBooking) => {
-    openModal({
-      body: (
-        <BookingForm
-          defaultValues={{
-            checkIn: dayjs(editingBooking?.checkIn),
-            checkOut: dayjs(editingBooking?.checkOut),
-            id: editingBooking?.id,
-          }}
-          onSuccess={handleSuccessEdit}
-        />
-      ),
-    });
-  };
+  const handleEdit = useCallback(
+    (editingBooking: IBooking) => {
+      openModal({
+        body: (
+          <BookingForm
+            defaultValues={{
+              checkIn: dayjs(editingBooking?.checkIn),
+              checkOut: dayjs(editingBooking?.checkOut),
+              id: editingBooking?.id,
+            }}
+            onSuccess={handleSuccessEdit}
+          />
+        ),
+      });
+    },
+    [handleSuccessEdit, openModal],
+  );
 
-  const handleDelete = (booking: IBooking) => {
-    if (booking.id) {
-      deleteBooking(booking.id);
-      addToast("Booking deleted successfully", { type: "success" });
-    }
-  };
+  const handleDelete = useCallback(
+    (booking: IBooking) => {
+      if (booking.id) {
+        deleteBooking(booking.id);
+        addToast("Booking deleted successfully", { type: "success" });
+      }
+    },
+    [deleteBooking, addToast],
+  );
 
   return (
     <div>
