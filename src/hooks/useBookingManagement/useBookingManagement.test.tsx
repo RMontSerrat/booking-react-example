@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import { act } from "@testing-library/react-hooks";
 import React from "react";
 import { RecoilRoot } from "recoil";
-import { bookingsState, useBooking } from "./useBooking";
+import { bookingsState, useBookingManagement } from "./useBookingManagement";
 
 import dayjs from "dayjs";
 
@@ -27,9 +27,9 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
   </RecoilRoot>
 );
 
-describe("useBooking", () => {
+describe("useBookingManagement", () => {
   test("should detect complete overlap in bookings", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
 
     expect(
       result.current.checkIsBookingOverlapping({
@@ -40,7 +40,7 @@ describe("useBooking", () => {
   });
 
   test("should detect when a booking envelops an existing booking", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
 
     expect(
       result.current.checkIsBookingOverlapping({
@@ -51,7 +51,7 @@ describe("useBooking", () => {
   });
 
   test("should not detect overlap for booking starting or ending on the same day without overlap", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
 
     expect(
       result.current.checkIsBookingOverlapping({
@@ -62,7 +62,7 @@ describe("useBooking", () => {
   });
 
   test("should not detect overlap for completely separate bookings", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
 
     expect(
       result.current.checkIsBookingOverlapping({
@@ -73,7 +73,7 @@ describe("useBooking", () => {
   });
 
   test("should handle addBooking correctly", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
 
     act(() => {
       result.current.addBooking({
@@ -85,7 +85,7 @@ describe("useBooking", () => {
   });
 
   test("should handle editBooking correctly", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
     const booking = result.current.bookings[0];
 
     act(() => {
@@ -99,7 +99,7 @@ describe("useBooking", () => {
   });
 
   test("should handle deleteBooking correctly", () => {
-    const { result } = renderHook(() => useBooking(), { wrapper });
+    const { result } = renderHook(() => useBookingManagement(), { wrapper });
     act(() => {
       result.current.deleteBooking("1");
     });

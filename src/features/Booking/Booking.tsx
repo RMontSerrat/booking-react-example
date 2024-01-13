@@ -2,58 +2,17 @@ import { BookingCard } from "@/components/BookingCard";
 import { BookingForm } from "@/components/BookingForm";
 import { BookingList } from "@/components/BookingList";
 import { Header } from "@/components/Header";
-import { useBooking } from "@/hooks/useBooking";
-import { useModal } from "@/hooks/useModal";
-import { useToast } from "@/hooks/useToast";
+import { useBookingManagement } from "@/hooks/useBookingManagement";
 import { IBooking } from "@/interfaces/booking";
 import dayjs from "dayjs";
-import { useCallback } from "react";
+import { useBooking } from "./useBooking";
 
 export function Booking() {
-  const { addToast } = useToast();
-  const { deleteBooking, bookings } = useBooking();
-  const { openModal, closeModal } = useModal();
-
-  const handleSuccessCreate = useCallback(() => {
-    addToast("Booking created successfully", { type: "success" });
-    closeModal();
-  }, [addToast, closeModal]);
-
-  const handleSuccessEdit = useCallback(() => {
-    addToast("Booking edited successfully", { type: "success" });
-    closeModal();
-  }, [addToast, closeModal]);
-
-  const handleEdit = useCallback(
-    (editingBooking: IBooking) => {
-      openModal({
-        body: (
-          <BookingForm
-            defaultValues={{
-              checkIn: dayjs(editingBooking?.checkIn),
-              checkOut: dayjs(editingBooking?.checkOut),
-              id: editingBooking?.id,
-            }}
-            onSuccess={handleSuccessEdit}
-          />
-        ),
-      });
-    },
-    [handleSuccessEdit, openModal],
-  );
-
-  const handleDelete = useCallback(
-    (booking: IBooking) => {
-      if (booking.id) {
-        deleteBooking(booking.id);
-        addToast("Booking deleted successfully", { type: "success" });
-      }
-    },
-    [deleteBooking, addToast],
-  );
+  const { handleSuccessCreate, handleEdit, handleDelete } = useBooking();
+  const { bookings } = useBookingManagement();
 
   return (
-    <div>
+    <>
       <Header>Booking List</Header>
       <BookingForm onSuccess={handleSuccessCreate} />
       {!!bookings.length && (
@@ -72,6 +31,6 @@ export function Booking() {
           ))}
         </BookingList>
       )}
-    </div>
+    </>
   );
 }

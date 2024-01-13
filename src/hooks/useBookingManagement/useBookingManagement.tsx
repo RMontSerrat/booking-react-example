@@ -20,7 +20,7 @@ export const bookingsState = atom<IBooking[]>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const useBooking = () => {
+export const useBookingManagement = () => {
   const [bookings, setBookings] = useRecoilState<IBooking[]>(bookingsState);
 
   const deleteBooking = (bookingId: string) => {

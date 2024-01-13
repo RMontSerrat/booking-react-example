@@ -8,8 +8,8 @@ const mockedAddBooking = jest.fn();
 const mockedEditBooking = jest.fn();
 let mockedcheckIsBookingOverlapping = jest.fn(() => false);
 
-jest.mock("@/hooks/useBooking", () => ({
-  useBooking: () => ({
+jest.mock("@/hooks/useBookingManagement", () => ({
+  useBookingManagement: () => ({
     addBooking: mockedAddBooking,
     editBooking: mockedEditBooking,
     checkIsBookingOverlapping: mockedcheckIsBookingOverlapping,

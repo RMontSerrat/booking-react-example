@@ -4,8 +4,8 @@ import { render } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import { Booking } from "./Booking";
 
-jest.mock("@/hooks/useBooking", () => ({
-  useBooking: () => ({
+jest.mock("@/hooks/useBookingManagement", () => ({
+  useBookingManagement: () => ({
     deleteBooking: jest.fn(),
     bookings: [
       {

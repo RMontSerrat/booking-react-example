@@ -1,4 +1,4 @@
-import { useBooking } from "@/hooks/useBooking";
+import { useBookingManagement } from "@/hooks/useBookingManagement";
 import { useToast } from "@/hooks/useToast";
 import { IBooking } from "@/interfaces/booking";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,12 +50,12 @@ export const bookingSchema = z
 
 export type BookingFormInput = z.infer<typeof bookingSchema>;
 
-interface UseBookingFormProps {
+interface useBookingFormProps {
   defaultValues?: IBooking;
   onSuccess?: () => void;
 }
 
-export const useBookingForm = (options?: UseBookingFormProps) => {
+export const useBookingForm = (options?: useBookingFormProps) => {
   const { defaultValues, onSuccess } = options ?? {};
   const { addToast } = useToast();
   const { control, handleSubmit, watch } = useForm<IBooking>({
@@ -63,7 +63,8 @@ export const useBookingForm = (options?: UseBookingFormProps) => {
     defaultValues,
   });
 
-  const { addBooking, editBooking, checkIsBookingOverlapping } = useBooking();
+  const { addBooking, editBooking, checkIsBookingOverlapping } =
+    useBookingManagement();
 
   const onSubmit = (data: BookingFormInput) => {
     const isBookingOverlapping = checkIsBookingOverlapping(data);
