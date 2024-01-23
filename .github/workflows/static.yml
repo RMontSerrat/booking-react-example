@@ -37,6 +37,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install --force
+      - name: Run Lint
+        run: npm lint
+      - name: Run Tests
+        run: npm test
       - name: Build
         run: npm run build
       - name: Setup Pages
