@@ -3,6 +3,7 @@
 ## About
 This is a booking management application built using React. It demonstrates a basic flow for managing bookings, featuring a modern user interface and robust state management.
 
+Check out the live demo here: [Booking React Example Demo](https://rmontserrat.github.io/booking-react-example/).
 
 ## Key Features
 - **Booking Management:** Create, view, and manage bookings.
