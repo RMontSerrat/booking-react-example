@@ -7,6 +7,7 @@ export const Form = styled.form`
   align-items: baseline;
   margin: 20px 0;
   justify-content: center;
+  width: 100%;
 
   @media (max-width: 600px) {
     flex-direction: column;
