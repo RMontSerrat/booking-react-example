@@ -10,13 +10,13 @@ jest.mock("@/hooks/useBookingManagement", () => ({
     bookings: [
       {
         id: "1",
-        checkIn: new Date("2022-01-01"),
-        checkOut: new Date("2022-01-02"),
+        checkIn: new Date("2022-01-01T00:00:00"),
+        checkOut: new Date("2022-01-02T00:00:00"),
       },
       {
         id: "2",
-        checkIn: new Date("2022-01-03"),
-        checkOut: new Date("2022-01-04"),
+        checkIn: new Date("2022-01-03T00:00:00"),
+        checkOut: new Date("2022-01-04T00:00:00"),
       },
     ],
   }),
